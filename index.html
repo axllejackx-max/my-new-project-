@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Indri — surat cinta digital</title>
+    <!-- GOOGLE FONT PREMIUM -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(145deg, #fce7f0, #fddee9);
+            font-family: 'Inter', -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        /* LOGIN — BERSIH, TANPA PETUNJUK SANDI */
+        .login-container {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 48px 24px 48px 24px;
+            box-shadow: 0 25px 40px -12px rgba(160, 80, 100, 0.2);
+            padding: 48px 32px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            border: 1.5px solid rgba(255, 255, 255, 0.5);
+            animation: float 4s infinite ease-in-out;
+        }
+        @keyframes float {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        .login-container h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            background: linear-gradient(145deg, #b33f5e, #d45a7a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        .login-container p {
+            font-size: 1.1rem;
+            color: #7e4a5b;
+            font-weight: 400;
+            margin-bottom: 36px;
+        }
+        .password-wrapper {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 100px;
+            padding: 6px 6px 6px 24px;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(255, 200, 210, 0.5);
+            box-shadow: 0 8px 20px -8px rgba(150, 60, 80, 0.1);
+            transition: 0.2s;
+        }
+        .password-wrapper:focus-within {
+            border-color: #ff99aa;
+            box-shadow: 0 8px 25px -6px rgba(255, 120, 140, 0.3);
+        }
+        .password-wrapper input {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 1.15rem;
+            padding: 16px 0;
+            font-weight: 500;
+            color: #3a2a2f;
+            letter-spacing: 6px;
+        }
+        .password-wrapper input::placeholder {
+            color: #cfa1ae;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+        .password-wrapper button {
+            background: linear-gradient(145deg, #ff8da1, #ff6f8f);
+            border: none;
+            border-radius: 100px;
+            padding: 14px 32px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 10px 20px -8px rgba(200,70,90,0.4);
+            transition: 0.1s;
+        }
+        .password-wrapper button:active {
+            transform: scale(0.96);
+            box-shadow: 0 5px 12px -4px rgba(200,70,90,0.5);
+        }
+        .error-msg {
+            color: #c64756;
+            margin-top: 20px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            min-height: 28px;
+        }
+        /* HALAMAN BUKU UTAMA */
+        #contentPage {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            display: none;
+            position: relative;
+        }
+        .book-wrapper {
+            background: rgba(255, 248, 250, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 56px 28px 56px 28px;
+            padding: 28px;
+            box-shadow: 0 30px 60px -20px rgba(140, 70, 90, 0.2);
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+        .book-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .book-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(145deg, #b33f5e, #d45a7a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        .book-header h2 span {
+            display: inline-block;
+            animation: heartbeat 2s infinite;
+            font-size: 3rem;
+        }
+        @keyframes heartbeat {
+            0%,100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .book {
+            background: rgba(255, 245, 247, 0.5);
+            backdrop-filter: blur(8px);
+            border-radius: 40px 20px 40px 20px;
+            padding: 28px 24px;
+            box-shadow: inset 0 0 0 1px rgba(255,220,230,0.6), inset 0 0 0 3px white;
+        }
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+        .page-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        /* TEKS ELEGAN */
+        .text-message {
+            flex: 1 1 280px;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(8px);
+            padding: 32px 28px;
+            border-radius: 48px 16px 48px 16px;
+            box-shadow: 0 12px 0 rgba(220,150,160,0.2);
+            border: 1px solid rgba(255,255,255,0.7);
+        }
+        .text-message p {
+            font-size: 1.05rem;
+            line-height: 1.65;
+            color: #3a2a30;
+            font-weight: 400;
+            margin-bottom: 14px;
+        }
+        .text-message p:first-child {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.7rem;
+            font-weight: 700;
+            background: linear-gradient(145deg, #b33f5e, #c75977);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+        /* KUCING IMUT LENGKAP */
+        .cat-section {
+            flex: 0 0 200px;
+            display: flex;
+            justify-content: center;
+        }
+        .kucing-imut {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            animation: goyang 3s infinite ease-in-out;
+            filter: drop-shadow(0 10px 15px rgba(220,130,150,0.15));
+        }
+        @keyframes goyang {
+            0%,100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-6px) rotate(1.5deg); }
+        }
+        .kepala {
+            position: absolute;
+            width: 130px;
+            height: 115px;
+            background: linear-gradient(145deg, #ffc0cd, #ffb0c0);
+            border-radius: 50% 50% 45% 45%;
+            top: 0;
+            left: 35px;
+            border: 4px solid white;
+            box-shadow: 0 8px 0 rgba(200,120,130,0.3);
+        }
+        .telinga {
+            position: absolute;
+            width: 0; height: 0;
+            border-left: 24px solid transparent;
+            border-right: 24px solid transparent;
+            border-bottom: 38px solid #ffb0c2;
+            top: -14px;
+            border-radius: 20px 20px 0 0;
+        }
+        .telinga.kiri { left: 28px; transform: rotate(-20deg); animation: ear-left 2.2s infinite; }
+        .telinga.kanan { left: 88px; transform: rotate(20deg); animation: ear-right 2.2s infinite; }
+        @keyframes ear-left {
+            0%,100% { transform: rotate(-20deg); }
+            70% { transform: rotate(-26deg); }
+        }
+        @keyframes ear-right {
+            0%,100% { transform: rotate(20deg); }
+            70% { transform: rotate(26deg); }
+        }
+        .mata {
+            position: absolute;
+            width: 24px; height: 30px;
+            background: white;
+            border-radius: 50%;
+            top: 38px;
+            border: 2.5px solid #4a2e36;
+            overflow: hidden;
+        }
+        .mata.kiri { left: 30px; }
+        .mata.kanan { left: 76px; }
+        .pupil {
+            width: 14px; height: 20px;
+            background: #3a2228;
+            border-radius: 50%;
+            position: absolute;
+            top: 5px; left: 5px;
+            animation: lirik 4s infinite, kedip 4.2s infinite;
+        }
+        @keyframes lirik {
+            0%,100% { transform: translateX(0); }
+            30% { transform: translateX(3px); }
+            70% { transform: translateX(-2px); }
+        }
+        @keyframes kedip {
+            0%,100% { opacity: 1; }
+            10% { opacity: 1; }
+            12% { opacity: 0.2; transform: scaleY(0.1); }
+            14% { opacity: 1; transform: scaleY(1); }
+        }
+        .hidung {
+            position: absolute;
+            width: 16px; height: 14px;
+            background: #ff8797;
+            border-radius: 50%;
+            top: 64px; left: 57px;
+            border: 2.5px solid white;
+            box-shadow: 0 3px 0 rgba(170,80,90,0.3);
+        }
+        .kumis {
+            position: absolute;
+            width: 42px; height: 1.8px;
+            background: #8b6b73;
+            top: 68px; opacity: 0.35;
+        }
+        .kumis.kiri1 { left: 8px; top: 62px; transform: rotate(-18deg); }
+        .kumis.kiri2 { left: 8px; top: 74px; transform: rotate(6deg); }
+        .kumis.kanan1 { left: 80px; top: 62px; transform: rotate(18deg); }
+        .kumis.kanan2 { left: 80px; top: 74px; transform: rotate(-6deg); }
+        .pipi {
+            position: absolute;
+            width: 26px; height: 16px;
+            background: rgba(255,160,170,0.4);
+            border-radius: 50%;
+            top: 68px; left: 12px;
+            box-shadow: 58px 0 0 rgba(255,160,170,0.4);
+            filter: blur(3px);
+        }
+        .badan {
+            position: absolute;
+            width: 100px; height: 60px;
+            background: linear-gradient(145deg, #ffc0cd, #ffaebb);
+            border-radius: 50% 50% 40% 40%;
+            top: 105px; left: 50px;
+            border: 4px solid white;
+            box-shadow: 0 8px 0 rgba(200,120,130,0.2);
+        }
+        .ekor {
+            position: absolute;
+            width: 60px; height: 22px;
+            background: #ffb0c0;
+            border-radius: 50% 0 0 50%;
+            top: 128px; left: 25px;
+            transform: rotate(32deg);
+            border: 4px solid white; border-right: none;
+            animation: wag 2s infinite;
+            box-shadow: -3px 5px 0 rgba(170,100,110,0.15);
+        }
+        @keyframes wag {
+            0%,100% { transform: rotate(32deg); }
+            50% { transform: rotate(44deg); }
+        }
+        .love-head {
+            position: absolute;
+            font-size: 1.9rem;
+            top: -18px; left: 80px;
+            animation: love-float 2.2s infinite alternate;
+            filter: drop-shadow(0 5px 8px rgba(255,100,130,0.3));
+        }
+        @keyframes love-float {
+            from { transform: translateY(0); }
+            to { transform: translateY(-7px); }
+        }
+        /* FOTO — PAKAI FILE .jpeg (UBAH DARI .jpg) */
+        .photo-folder {
+            flex: 0 0 200px;
+            background: white;
+            padding: 12px;
+            border-radius: 40px 12px 40px 12px;
+            border: 1px solid rgba(255,200,210,0.6);
+            box-shadow: 0 18px 0 rgba(210,140,150,0.15), 0 20px 30px -8px rgba(150,70,80,0.15);
+            transform: rotate(0.6deg);
+            transition: transform 0.2s;
+        }
+        .photo-folder:hover {
+            transform: rotate(0deg) scale(1.01);
+        }
+        .photo-folder img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 28px 6px 28px 6px;
+            border: 4px solid white;
+            background: #ffe6f0;
+        }
+        /* NAVIGASI */
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            margin-top: 36px;
+        }
+        .nav-btn {
+            background: white;
+            border: none;
+            border-radius: 100px;
+            padding: 14px 36px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #b3455f;
+            border: 1px solid rgba(255,140,160,0.3);
+            box-shadow: 0 12px 0 rgba(200,110,120,0.1), 0 6px 16px rgba(180,100,110,0.1);
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.6);
+            transition: 0.1s;
+            letter-spacing: 1.5px;
+            font-family: 'Inter', sans-serif;
+        }
+        .nav-btn:active {
+            transform: translateY(8px);
+            box-shadow: 0 4px 0 rgba(200,110,120,0.15);
+        }
+        .nav-btn:disabled {
+            opacity: 0.3;
+            transform: none;
+            box-shadow: 0 6px 0 rgba(200,110,120,0.1);
+            cursor: default;
+        }
+        /* BUNGA JATUH */
+        .bunga-bg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+        }
+        .bunga {
+            position: absolute;
+            font-size: 2rem;
+            animation: fall 12s linear infinite;
+            opacity: 0.4;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-20vh) rotate(0deg); opacity: 0.5; }
+            100% { transform: translateY(130vh) rotate(300deg); opacity: 0.15; }
+        }
+        @media (max-width: 750px) {
+            .page-content { flex-direction: column; align-items: center; }
+            .photo-folder { width: 80%; max-width: 280px; }
+            .book-header h2 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- LOGIN — TANPA PETUNJUK SANDI -->
+<div id="loginPage" class="login-container">
+    <h1>Indri</h1>
+    <p>masuk dulu yaa, ada surat cinta buat kamu ❤️</p>
+    <div class="password-wrapper">
+        <input type="password" id="passwordInput" placeholder="****" maxlength="12">
+        <button id="loginBtn">BUKA</button>
+    </div>
+    <div id="errorMessage" class="error-msg"></div>
+</div>
+
+<!-- BUKU UTAMA — KUCING LENGKAP, FOTO .jpeg -->
+<div id="contentPage">
+    <div class="bunga-bg" id="bungaContainer"></div>
+    <div class="book-wrapper">
+        <div class="book-header">
+            <h2><span>💗</span> buat Indri <span>💗</span></h2>
+        </div>
+        <div class="book">
+            <!-- HALAMAN 1 -->
+            <div class="page active" id="page1">
+                <div class="page-content">
+                    <div class="cat-section">
+                        <div class="kucing-imut">
+                            <div class="telinga kiri"></div>
+                            <div class="telinga kanan"></div>
+                            <div class="kepala">
+                                <div class="mata kiri"><div class="pupil"></div></div>
+                                <div class="mata kanan"><div class="pupil"></div></div>
+                                <div class="hidung"></div>
+                                <div class="kumis kiri1"></div><div class="kumis kiri2"></div>
+                                <div class="kumis kanan1"></div><div class="kumis kanan2"></div>
+                                <div class="pipi"></div>
+                            </div>
+                            <div class="badan"></div>
+                            <div class="ekor"></div>
+                            <div class="love-head">🌸</div>
+                        </div>
+                    </div>
+                    <div class="text-message">
+                        <p>🐾 awal kenal kamu</p>
+                        <p>Indri, kadang aku masih suka heran gimana caranya kita bisa sedeket sekarang. padahal awalnya cuma saling tau, saling sapa biasa, ga ada yang spesial. tapi makin lama ngobrol, makin sering cerita, disitu aku mulai ngerasa ada yang beda. kamu jadi orang yang pertama aku cari pas bangun, yang terakhir aku pikirin sebelum tidur. dari yang awalnya cuma kebiasaan, berubah jadi kebutuhan. kamu bikin hari aku yang biasa aja jadi lebih berarti.</p>
+                    </div>
+                    <!-- FOTO 1: foto1.jpeg -->
+                    <div class="photo-folder">
+                        <img src="foto1.jpeg" alt="foto kenangan 1" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'400\' viewBox=\'0 0 400 400\'%3E%3Crect width=\'400\' height=\'400\' fill=\'%23ffb7c5\'/%3E%3Ctext x=\'120\' y=\'220\' font-family=\'Arial\' font-size=\'32\' fill=\'white\'%3EFoto 1%3C/text%3E%3C/svg%3E';">
+                    </div>
+                </div>
+            </div>
+            <!-- HALAMAN 2 -->
+            <div class="page" id="page2">
+                <div class="page-content">
+                    <div class="cat-section">
+                        <div class="kucing-imut">
+                            <div class="telinga kiri"></div><div class="telinga kanan"></div>
+                            <div class="kepala">
+                                <div class="mata kiri"><div class="pupil"></div></div>
+                                <div class="mata kanan"><div class="pupil"></div></div>
+                                <div class="hidung"></div>
+                                <div class="kumis kiri1"></div><div class="kumis kiri2"></div>
+                                <div class="kumis kanan1"></div><div class="kumis kanan2"></div>
+                                <div class="pipi"></div>
+                            </div>
+                            <div class="badan"></div><div class="ekor"></div>
+                            <div class="love-head">🌷</div>
+                        </div>
+                    </div>
+                    <div class="text-message">
+                        <p>🐈 nyaman itu kamu</p>
+                        <p>Aku ngerasa beruntung bisa kenal kamu sedalam ini. soalnya ga semua orang bisa bikin aku ngerasa nyaman cuma dengan jadi diri mereka sendiri. sama kamu aku bisa cerita apa aja, tanpa takut di nilai aneh. kamu dengerin, kamu ngerti, bahkan pas aku lagi ga baik-baik aja pun kamu tetap ada. disitu aku sadar, ternyata rasa sayang aku ke kamu bukan main-main… tapi udah sejauh itu.</p>
+                    </div>
+                    <!-- FOTO 2: foto2.jpeg -->
+                    <div class="photo-folder">
+                        <img src="foto2.jpeg" alt="foto kenangan 2" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'400\' viewBox=\'0 0 400 400\'%3E%3Crect width=\'400\' height=\'400\' fill=\'%23ffa5b9\'/%3E%3Ctext x=\'120\' y=\'220\' font-family=\'Arial\' font-size=\'32\' fill=\'white\'%3EFoto 2%3C/text%3E%3C/svg%3E';">
+                    </div>
+                </div>
+            </div>
+            <!-- HALAMAN 3 -->
+            <div class="page" id="page3">
+                <div class="page-content">
+                    <div class="cat-section">
+                        <div class="kucing-imut">
+                            <div class="telinga kiri"></div><div class="telinga kanan"></div>
+                            <div class="kepala">
+                                <div class="mata kiri"><div class="pupil"></div></div>
+                                <div class="mata kanan"><div class="pupil"></div></div>
+                                <div class="hidung"></div>
+                                <div class="kumis kiri1"></div><div class="kumis kiri2"></div>
+                                <div class="kumis kanan1"></div><div class="kumis kanan2"></div>
+                                <div class="pipi"></div>
+                            </div>
+                            <div class="badan"></div><div class="ekor"></div>
+                            <div class="love-head">🌿</div>
+                        </div>
+                    </div>
+                    <div class="text-message">
+                        <p>🌿 rasa yang tumbuh</p>
+                        <p>Aku ga tau tepatnya kapan mulai jatuh cinta sama kamu. rasanya pelan, tapi pasti. dari hal kecil, dari perhatian kecil, dari cara kamu peduli sama aku. makin hari bukannya berkurang, malah makin nambah. kamu tuh kaya rumah… tempat aku pulang pas capek, tempat aku tenang pas dunia lagi ribut. dan jujur, aku ga kebayang kalau harus jalan tanpa kamu di samping aku.</p>
+                    </div>
+                    <!-- FOTO 3: foto3.jpeg -->
+                    <div class="photo-folder">
+                        <img src="foto3.jpeg" alt="foto kenangan 3" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'400\' viewBox=\'0 0 400 400\'%3E%3Crect width=\'400\' height=\'400\' fill=\'%23ff99aa\'/%3E%3Ctext x=\'120\' y=\'220\' font-family=\'Arial\' font-size=\'32\' fill=\'white\'%3EFoto 3%3C/text%3E%3C/svg%3E';">
+                    </div>
+                </div>
+            </div>
+            <!-- HALAMAN 4 -->
+            <div class="page" id="page4">
+                <div class="page-content">
+                    <div class="cat-section">
+                        <div class="kucing-imut">
+                            <div class="telinga kiri"></div><div class="telinga kanan"></div>
+                            <div class="kepala">
+                                <div class="mata kiri"><div class="pupil"></div></div>
+                                <div class="mata kanan"><div class="pupil"></div></div>
+                                <div class="hidung"></div>
+                                <div class="kumis kiri1"></div><div class="kumis kiri2"></div>
+                                <div class="kumis kanan1"></div><div class="kumis kanan2"></div>
+                                <div class="pipi"></div>
+                            </div>
+                            <div class="badan"></div><div class="ekor"></div>
+                            <div class="love-head">🤍</div>
+                        </div>
+                    </div>
+                    <div class="text-message">
+                        <p>🤍 kurang & lebih kita</p>
+                        <p>Aku tau kita sama-sama punya kurang. kadang aku nyebelin, kadang kamu juga bikin kesel. kita pernah beda pendapat, pernah diem-dieman juga. tapi anehnya, itu semua ga pernah bikin aku pengen nyerah. justru dari situ aku belajar, kalau sayang itu bukan cuma pas lagi senang… tapi juga pas lagi ga enak, tapi tetap milih buat bertahan bareng.</p>
+                    </div>
+                    <!-- FOTO 4: foto4.jpeg -->
+                    <div class="photo-folder">
+                        <img src="foto4.jpeg" alt="foto kenangan 4" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'400\' viewBox=\'0 0 400 400\'%3E%3Crect width=\'400\' height=\'400\' fill=\'%23ff8da1\'/%3E%3Ctext x=\'120\' y=\'220\' font-family=\'Arial\' font-size=\'32\' fill=\'white\'%3EFoto 4%3C/text%3E%3C/svg%3E';">
+                    </div>
+                </div>
+            </div>
+            <!-- HALAMAN 5 -->
+            <div class="page" id="page5">
+                <div class="page-content">
+                    <div class="cat-section">
+                        <div class="kucing-imut">
+                            <div class="telinga kiri"></div><div class="telinga kanan"></div>
+                            <div class="kepala">
+                                <div class="mata kiri"><div class="pupil"></div></div>
+                                <div class="mata kanan"><div class="pupil"></div></div>
+                                <div class="hidung"></div>
+                                <div class="kumis kiri1"></div><div class="kumis kiri2"></div>
+                                <div class="kumis kanan1"></div><div class="kumis kanan2"></div>
+                                <div class="pipi"></div>
+                            </div>
+                            <div class="badan"></div><div class="ekor"></div>
+                            <div class="love-head">✨</div>
+                        </div>
+                    </div>
+                    <div class="text-message">
+                        <p>✨ harapan aku</p>
+                        <p>Aku ga minta hubungan kita harus selalu sempurna. aku cuma mau kita tetap sama-sama, mau sesusah apa pun nanti. aku pengen terus ada di samping kamu, nemenin kamu tumbuh, nemenin kamu ngejar apa yang kamu mau. dan semoga kamu juga gitu ke aku. pelan-pelan aja, yang penting bareng. karena buat aku, selama itu sama kamu… semuanya bakal kerasa cukup.</p>
+                    </div>
+                    <!-- FOTO 5: foto5.jpeg -->
+                    <div class="photo-folder">
+                        <img src="foto5.jpeg" alt="foto kenangan 5" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'400\' viewBox=\'0 0 400 400\'%3E%3Crect width=\'400\' height=\'400\' fill=\'%23ff80a5\'/%3E%3Ctext x=\'120\' y=\'220\' font-family=\'Arial\' font-size=\'32\' fill=\'white\'%3EFoto 5%3C/text%3E%3C/svg%3E';">
+                    </div>
+                </div>
+            </div>
+            <!-- HALAMAN 6 -->
+            <div class="page" id="page6">
+                <div class="page-content">
+                    <div class="cat-section">
+                        <div class="kucing-imut">
+                            <div class="telinga kiri"></div><div class="telinga kanan"></div>
+                            <div class="kepala">
+                                <div class="mata kiri"><div class="pupil"></div></div>
+                                <div class="mata kanan"><div class="pupil"></div></div>
+                                <div class="hidung"></div>
+                                <div class="kumis kiri1"></div><div class="kumis kiri2"></div>
+                                <div class="kumis kanan1"></div><div class="kumis kanan2"></div>
+                                <div class="pipi"></div>
+                            </div>
+                            <div class="badan"></div><div class="ekor"></div>
+                            <div class="love-head">💗</div>
+                        </div>
+                    </div>
+                    <div class="text-message">
+                        <p>🎀 buat kamu, indri</p>
+                        <p>Terakhir, aku cuma mau kamu tau… aku sayang kamu, sesederhana itu tapi sedalam itu. makasih udah hadir di hidup aku, makasih udah sabar sama aku, makasih udah jadi indri yang aku kenal sekarang. kalau nanti dunia lagi berat ke kamu, inget aja aku selalu ada. aku mungkin bukan yang paling sempurna, tapi aku bakal selalu usaha jadi yang terbaik buat kamu.</p>
+                    </div>
+                    <!-- FOTO 6: foto6.jpeg -->
+                    <div class="photo-folder">
+                        <img src="foto6.jpeg" alt="foto kenangan 6" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'400\' viewBox=\'0 0 400 400\'%3E%3Crect width=\'400\' height=\'400\' fill=\'%23ff6f8f\'/%3E%3Ctext x=\'120\' y=\'220\' font-family=\'Arial\' font-size=\'32\' fill=\'white\'%3EFoto 6%3C/text%3E%3C/svg%3E';">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <button class="nav-btn" id="prevBtn" disabled>◀ Sebelum</button>
+            <button class="nav-btn" id="nextBtn">Selanjutnya ▶</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // SANDI RAHASIA — 180311030110
+    const SANDI_BENAR = "180311030110";
+    const loginPage = document.getElementById('loginPage');
+    const contentPage = document.getElementById('contentPage');
+    const passwordInput = document.getElementById('passwordInput');
+    const loginBtn = document.getElementById('loginBtn');
+    const errorMsg = document.getElementById('errorMessage');
+
+    function cekSandi() {
+        if (passwordInput.value.trim() === SANDI_BENAR) {
+            loginPage.style.display = 'none';
+            contentPage.style.display = 'block';
+            buatBungaJatuh();
+        } else {
+            errorMsg.innerText = '❌ sandi salah, coba lagi ya ❌';
+            passwordInput.value = '';
+        }
+    }
+    loginBtn.addEventListener('click', cekSandi);
+    passwordInput.addEventListener('keypress', e => e.key === 'Enter' && cekSandi());
+
+    // NAVIGASI BUKU
+    const pages = document.querySelectorAll('.page');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let currentPage = 0;
+    function updatePages() {
+        pages.forEach((p, i) => p.classList.toggle('active', i === currentPage));
+        prevBtn.disabled = currentPage === 0;
+        nextBtn.disabled = currentPage === pages.length - 1;
+    }
+    prevBtn.addEventListener('click', () => { if (currentPage > 0) currentPage--; updatePages(); });
+    nextBtn.addEventListener('click', () => { if (currentPage < pages.length - 1) currentPage++; updatePages(); });
+    updatePages();
+
+    // BUNGA JATUH
+    function buatBungaJatuh() {
+        const container = document.getElementById('bungaContainer');
+        container.innerHTML = '';
+        const bunga = ['🌸','🌷','🌹','🌺','🌸','🌷','💗','🌸'];
+        for (let i=0;i<35;i++) {
+            let el = document.createElement('div');
+            el.className = 'bunga';
+            el.textContent = bunga[Math.floor(Math.random() * bunga.length)];
+            el.style.left = Math.random() * 100 + '%';
+            el.style.animationDelay = Math.random() * 12 + 's';
+            el.style.animationDuration = (Math.random() * 8 + 10) + 's';
+            el.style.fontSize = (Math.random() * 1.5 + 1.8) + 'rem';
+            container.appendChild(el);
+        }
+    }
+</script>
+
+</body>
+</html>

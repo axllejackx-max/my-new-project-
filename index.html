@@ -963,7 +963,7 @@ if (playBtn && welcomeMusic) {
                 .then(() => {
                     isMusicPlaying = true;
                     playBtn.classList.add('playing');
-                    playBtn.querySelector('.play-icon').textContent = '⏸';
+                    playBtn.querySelector('.play-icon').textContent = '▌ ▌';
                     playBtn.querySelector('.play-text').textContent = 'Memutar...';
                     musicStatus.textContent = '🎵 lagu spesial buat Indri';
                     
@@ -976,7 +976,7 @@ if (playBtn && welcomeMusic) {
                 })
                 .catch(e => {
                     console.log('Gagal main:', e);
-                    musicStatus.textContent = '❌ tap lagi untuk putar';
+                    musicStatus.textContent = '𝕏  tap lagi untuk putar';
                 });
         } else {
             welcomeMusic.pause();
@@ -1010,7 +1010,7 @@ cekSandi = function() {
         
         buatBungaJatuh();
     } else {
-        errorMsg.innerText = '❌ sandi salah, coba lagi ya ❌';
+        errorMsg.innerText = '𝕏  sandi salah, coba lagi ya 𝕏 ';
         passwordInput.value = '';
     }
 };

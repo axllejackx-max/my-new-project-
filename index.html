@@ -673,5 +673,64 @@
     }
 </script>
 
-</body>
+<!-- MUSIK BACKGROUND -->
+<audio id="bgMusic" loop>
+  <source src="home.mp3" type="audio/mpeg">
+</audio>
+
+<!-- TOMBOL KONTROL MUSIK (muncul setelah login) -->
+<div id="musicControl" style="display: none; position: fixed; bottom: 20px; right: 20px; z-index: 1000; background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(12px); border-radius: 40px; padding: 8px 18px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); border: 1.5px solid rgba(255,255,255,0.7);">
+  <button id="musicToggle" style="background: none; border: none; font-size: 24px; cursor: pointer; display: flex; align-items: center; gap: 10px; color: #b34169; font-family: 'Inter', sans-serif; font-weight: 500; outline: none;">
+    <span id="musicIcon">🔊</span>
+    <span style="font-size: 14px; letter-spacing: 0.5px;">Musik</span>
+  </button>
+</div>
+
+<script>
+  (function() {
+    const audio = document.getElementById('bgMusic');
+    const musicControl = document.getElementById('musicControl');
+    const contentPage = document.getElementById('contentPage');
+
+    function playMusic() {
+      if (audio) {
+        audio.play().catch(e => console.log('Autoplay dicegah browser:', e));
+      }
+      if (musicControl) {
+        musicControl.style.display = 'block';
+      }
+    }
+
+    // Deteksi ketika halaman utama muncul (setelah login)
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+          if (contentPage.style.display === 'block') {
+            playMusic();
+            observer.disconnect(); // berhenti setelah sukses
+          }
+        }
+      });
+    });
+
+    if (contentPage) {
+      observer.observe(contentPage, { attributes: true });
+    }
+
+    // Tombol mute/unmute
+    const musicToggle = document.getElementById('musicToggle');
+    const musicIcon = document.getElementById('musicIcon');
+    if (musicToggle && audio) {
+      musicToggle.addEventListener('click', function() {
+        if (audio.muted) {
+          audio.muted = false;
+          musicIcon.textContent = '🔊';
+        } else {
+          audio.muted = true;
+          musicIcon.textContent = '🔇';
+        }
+      });
+    }
+  })();
+</script></body>
 </html>

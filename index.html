@@ -417,7 +417,218 @@
             .page-content { flex-direction: column; align-items: center; }
             .photo-folder { width: 80%; max-width: 280px; }
             .book-header h2 { font-size: 2.2rem; }
-        }
+        }/* ===== HALAMAN MUSIK PREMIUM ===== */
+.music-page-content {
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+}
+
+.music-bg-decoration {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.floating-heart {
+    position: absolute;
+    font-size: 2rem;
+    animation: floatAround 8s infinite ease-in-out;
+    opacity: 0.3;
+}
+
+.floating-heart:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+.floating-heart:nth-child(2) { top: 70%; right: 15%; animation-delay: 2s; }
+.floating-heart:nth-child(3) { bottom: 20%; left: 20%; animation-delay: 4s; }
+.floating-heart:nth-child(4) { top: 40%; right: 25%; animation-delay: 6s; }
+
+@keyframes floatAround {
+    0%,100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-30px) rotate(10deg); }
+}
+
+.music-card {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 48px 24px 48px 24px;
+    padding: 40px 30px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 30px 50px -20px rgba(180, 70, 100, 0.3);
+    position: relative;
+    z-index: 10;
+    animation: cardAppear 0.8s ease;
+}
+
+@keyframes cardAppear {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.music-cover {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 25px;
+}
+
+.vinyl-record {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #2a1a20, #3d252d);
+    border-radius: 50%;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2), inset 0 -5px 15px rgba(255,255,255,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: spin 20s linear infinite;
+    border: 5px solid #b38b95;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.record-label {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(145deg, #ffb7c5, #ff99aa);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px rgba(255,140,160,0.5);
+    border: 3px solid white;
+}
+
+.record-label .heart-icon {
+    font-size: 2rem;
+    animation: heartbeat 1.5s infinite;
+}
+
+.cover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.cat-music-icon {
+    background: rgba(255,255,255,0.3);
+    backdrop-filter: blur(5px);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+}
+
+.mini-cat {
+    font-size: 2.2rem;
+    animation: goyang 2s infinite;
+}
+
+.music-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: #b34169;
+    margin-bottom: 8px;
+    text-shadow: 2px 2px 0 rgba(255,200,210,0.3);
+}
+
+.music-caption {
+    font-size: 1rem;
+    color: #7e4a5b;
+    margin-bottom: 30px;
+    font-style: italic;
+}
+
+.play-btn {
+    background: linear-gradient(145deg, #ff8da1, #ff6f8f);
+    border: none;
+    border-radius: 60px;
+    padding: 16px 35px;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 15px 25px -8px rgba(200,70,90,0.4);
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.play-btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 30px -8px rgba(200,70,90,0.5);
+}
+
+.play-btn.playing {
+    background: linear-gradient(145deg, #7e4a5b, #9e5f70);
+}
+
+.play-icon {
+    font-size: 1.5rem;
+    transition: transform 0.2s;
+}
+
+.play-btn.playing .play-icon {
+    transform: scale(1.2);
+}
+
+.play-text {
+    letter-spacing: 1px;
+}
+
+.skip-btn {
+    background: transparent;
+    border: none;
+    color: #b34169;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 8px 15px;
+    border-radius: 30px;
+    transition: all 0.2s;
+    border: 1px solid rgba(255,140,160,0.3);
+    background: rgba(255,255,255,0.3);
+    backdrop-filter: blur(5px);
+    margin-top: 10px;
+}
+
+.skip-btn:hover {
+    background: rgba(255,140,160,0.2);
+    transform: translateX(5px);
+}
+
+.music-status {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #a6526b;
+    min-height: 20px;
+    font-weight: 400;
+}
     </style>
 </head>
 <body>
@@ -441,7 +652,60 @@
             <h2><span>💗</span> buat Indri <span>💗</span></h2>
         </div>
         <div class="book">
-            <!-- HALAMAN 1 -->
+            <!-- HALAMAN MUSIK (PAGE 0) - MUNCUL SETELAH LOGIN -->
+<div class="page" id="page0">
+    <div class="music-page-content">
+        <!-- Background dekoratif -->
+        <div class="music-bg-decoration">
+            <div class="floating-heart">💗</div>
+            <div class="floating-heart">🌸</div>
+            <div class="floating-heart">🌷</div>
+            <div class="floating-heart">💕</div>
+        </div>
+        
+        <!-- Card utama musik -->
+        <div class="music-card">
+            <div class="music-cover">
+                <div class="vinyl-record">
+                    <div class="record-label">
+                        <span class="heart-icon">💗</span>
+                    </div>
+                </div>
+                <div class="cover-overlay">
+                    <div class="cat-music-icon">
+                        <div class="mini-cat">🐱</div>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 class="music-title">Untuk Indri</h3>
+            <p class="music-caption">putar dulu lagu spesial ini, sayang ❤️</p>
+            
+            <!-- Audio element (tersembunyi) -->
+            <audio id="welcomeMusic" loop>
+                <source src="home.mp3" type="audio/mpeg">
+            </audio>
+            
+            <!-- Tombol play yang cantik -->
+            <button id="playMusicBtn" class="play-btn">
+                <span class="play-icon">▶</span>
+                <span class="play-text">Putar Musik</span>
+            </button>
+            
+            <!-- Tombol skip / langsung ke halaman 1 (opsional) -->
+            <button id="skipToPage1" class="skip-btn">
+                Lanjut ke surat cinta →
+            </button>
+            
+            <!-- Status musik -->
+            <div id="musicStatus" class="music-status"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TETAP PERTAHANKAN page1 dan seterusnya ... --> 
+        
+          <!-- HALAMAN 1 -->
             <div class="page active" id="page1">
                 <div class="page-content">
                     <div class="cat-section">
@@ -672,65 +936,90 @@
         }
     }
 </script>
+    <script>
 
-<!-- MUSIK BACKGROUND -->
-<audio id="bgMusic" loop>
-  <source src="home.mp3" type="audio/mpeg">
-</audio>
 
-<!-- TOMBOL KONTROL MUSIK (muncul setelah login) -->
-<div id="musicControl" style="display: none; position: fixed; bottom: 20px; right: 20px; z-index: 1000; background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(12px); border-radius: 40px; padding: 8px 18px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); border: 1.5px solid rgba(255,255,255,0.7);">
-  <button id="musicToggle" style="background: none; border: none; font-size: 24px; cursor: pointer; display: flex; align-items: center; gap: 10px; color: #b34169; font-family: 'Inter', sans-serif; font-weight: 500; outline: none;">
-    <span id="musicIcon">🔊</span>
-    <span style="font-size: 14px; letter-spacing: 0.5px;">Musik</span>
-  </button>
-</div>
+// ===== HANDLE HALAMAN MUSIK =====
+const musicPage = document.getElementById('page0');
+const welcomeMusic = document.getElementById('welcomeMusic');
+const playBtn = document.getElementById('playMusicBtn');
+const skipBtn = document.getElementById('skipToPage1');
+const musicStatus = document.getElementById('musicStatus');
+let isMusicPlaying = false;
 
-<script>
-  (function() {
-    const audio = document.getElementById('bgMusic');
-    const musicControl = document.getElementById('musicControl');
-    const contentPage = document.getElementById('contentPage');
+// Fungsi untuk pindah ke halaman 1
+function goToPage1() {
+    if (musicPage) musicPage.classList.remove('active');
+    if (pages[0]) pages[0].classList.add('active'); // page1
+    currentPage = 0;
+    updatePages(); // update tombol navigasi
+}
 
-    function playMusic() {
-      if (audio) {
-        audio.play().catch(e => console.log('Autoplay dicegah browser:', e));
-      }
-      if (musicControl) {
-        musicControl.style.display = 'block';
-      }
-    }
-
-    // Deteksi ketika halaman utama muncul (setelah login)
-    const observer = new MutationObserver(function(mutations) {
-      mutations.forEach(function(mutation) {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
-          if (contentPage.style.display === 'block') {
-            playMusic();
-            observer.disconnect(); // berhenti setelah sukses
-          }
-        }
-      });
-    });
-
-    if (contentPage) {
-      observer.observe(contentPage, { attributes: true });
-    }
-
-    // Tombol mute/unmute
-    const musicToggle = document.getElementById('musicToggle');
-    const musicIcon = document.getElementById('musicIcon');
-    if (musicToggle && audio) {
-      musicToggle.addEventListener('click', function() {
-        if (audio.muted) {
-          audio.muted = false;
-          musicIcon.textContent = '🔊';
+// Event listener untuk tombol play
+if (playBtn && welcomeMusic) {
+    playBtn.addEventListener('click', function() {
+        if (welcomeMusic.paused) {
+            welcomeMusic.play()
+                .then(() => {
+                    isMusicPlaying = true;
+                    playBtn.classList.add('playing');
+                    playBtn.querySelector('.play-icon').textContent = '⏸';
+                    playBtn.querySelector('.play-text').textContent = 'Memutar...';
+                    musicStatus.textContent = '🎵 lagu spesial buat Indri';
+                    
+                    // Optional: auto pindah setelah musik diputar (misal 5 detik)
+                    setTimeout(() => {
+                        if (isMusicPlaying) {
+                            goToPage1();
+                        }
+                    }, 5000); // pindah otomatis 5 detik setelah play
+                })
+                .catch(e => {
+                    console.log('Gagal main:', e);
+                    musicStatus.textContent = '❌ tap lagi untuk putar';
+                });
         } else {
-          audio.muted = true;
-          musicIcon.textContent = '🔇';
+            welcomeMusic.pause();
+            isMusicPlaying = false;
+            playBtn.classList.remove('playing');
+            playBtn.querySelector('.play-icon').textContent = '▶';
+            playBtn.querySelector('.play-text').textContent = 'Putar Musik';
+            musicStatus.textContent = '';
         }
-      });
+    });
+}
+
+// Tombol skip langsung ke halaman 1
+if (skipBtn) {
+    skipBtn.addEventListener('click', function() {
+        goToPage1();
+    });
+}
+
+// Saat login sukses, pastikan page0 yang aktif
+const originalCekSandi = cekSandi;
+cekSandi = function() {
+    if (passwordInput.value.trim() === SANDI_BENAR) {
+        loginPage.style.display = 'none';
+        contentPage.style.display = 'block';
+        
+        // Nonaktifkan semua page dulu
+        pages.forEach(p => p.classList.remove('active'));
+        // Aktifkan page0 (halaman musik)
+        if (musicPage) musicPage.classList.add('active');
+        
+        buatBungaJatuh();
+    } else {
+        errorMsg.innerText = '❌ sandi salah, coba lagi ya ❌';
+        passwordInput.value = '';
     }
-  })();
-</script></body>
+};
+// Override function login
+loginBtn.removeEventListener('click', loginBtn.click);
+loginBtn.addEventListener('click', cekSandi);
+passwordInput.removeEventListener('keypress', passwordInput.keypress);
+passwordInput.addEventListener('keypress', e => e.key === 'Enter' && cekSandi());
+
+</script>
+</body>
 </html>
